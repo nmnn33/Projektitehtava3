@@ -31,9 +31,9 @@ app.use(bodyParser.json());
 //Polut
 app.get('/', routes.index); //pääsivu ja navigaatio
 
-app.get('/api/getall', routes.getAll); //Return all documents in collection
+app.get('/api/getall', routes.getAll); //Return all documents in collection (tässä tapauksessa vain 20)
 app.get('/api/:id', routes.id); //Return one item with the given id
-app.post('/api/add/:name', routes.add); //Create a new document in the collection
+app.post('/api/add', routes.add); //Create a new document in the collection
 app.put('/api/update/:id', routes.updateId); //Update the document with the given id
 app.delete('/api/delete/:id', routes.deleteId); //Delete the item with the given id
 

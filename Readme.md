@@ -1,6 +1,7 @@
 Node.js nettisovellus/client joka käyttää mongoDB.
-
 Käytössä on mongoose.
+
+Nettisovelluksella otetaan yhteyttä minun tietokantaani ja siitä olevat tiedot saadaan käyttäjälle osittain esiin REST API avulla.
 
 Toimivat id:t hakua varten:
 

@@ -10,6 +10,35 @@
 
 <body>
 
+    <div class="Greeter">
+        <h2>Tervetuloa Rest Api harjoitus sivulleni! (made by LTT.inc)</h2>
+    </div>
+
+    <div class="main">
+        <h3>Lista toiminnoista listattuna (korvaa https://myapp.com localhostilla jos paikallinen hostaus tai herokulla
+            jos herokussa.):</h3>
+        <ul>
+            <li>
+                http://myapp.com/ tuo esiin etusivuni (olet täällä).
+            </li>
+            <li>
+                http://myapp.com/api/getall tuo esiin 20 esimmäistä dokumenttiä kokoelmastani mongodb:stä
+
+                http://myapp.com/api/:id hakee id:n avulla dokumentin
+            </li>
+            <li>
+                http://myapp.com/api/add lisää dokumentin annetuilla avain-arvo pareilla, jotka ovat "name", "address",
+                "email"
+                ilman """.
+            </li>
+            <li>
+                http://myapp.com/api/update/:id muuttaa yhden dokumentin "name" kohdan Junior:ksi.
+            </li>
+            <li>
+                http://myapp.com/api/delete/:id poistaa haetun id:n vastaavan dokumentin kokoelmasta.
+            </li>
+        </ul>
+    </div>
 </body>
 
 </html>

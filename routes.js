@@ -4,16 +4,23 @@ var salis = process.env.DB_PASS
 //Mongo Db yhteys luonti mongoose avulla
 var mongoose = require("mongoose"); //mongoose
 const uri = "mongodb+srv://" + user + ":" + salis + "@cluster0.jmzx9.mongodb.net/sample_analytics?retryWrites=true&w=majority";
-mongoose.connect(uri);
+//yhdistetään tietokantaan
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-exports.index = function (req, res) {
-    res.render('index');
-    console.log('index.ejs here!');
-};
+// Määritellään Customers-niminen Schema, eli tietomalli taulukkoon tallennettavista olioista.
+const CustomerSchema = new mongoose.Schema({
 
-//var db = mongoose.connection;
-
-// Määritellään Customers-niminen Schema, eli tietomalli taulukkoon tallennettavista olioista
+    name: String,
+    address: String,
+    email: String
+});
+//Määritellään Schema
+const Customers = mongoose.model(
+    "Customers",
+    CustomerSchema,
+    "customers"
+);
+/*// Määritellään Customers-niminen Schema, eli tietomalli taulukkoon tallennettavista olioista. Alla oleva "customers" kertoo kokoelman.
 const Customers = mongoose.model(
     "Customers",
     {
@@ -23,7 +30,14 @@ const Customers = mongoose.model(
     },
     "customers"
 );
+*/
+//Pääsivu polku (/)
+exports.index = function (req, res) {
+    res.render('index');
+    console.log('index.ejs here!');
+};
 
+//Tulostaa 20 ekaa kokoelmasta (/api/getall)
 exports.getAll = function (req, res) {
     Customers.find({}, null, { limit: 20 }, function (err, results) {
         // Jos tietokantahaussa tapahtuu virhe, palautetaan virhekoodi myös selaimelle
@@ -37,6 +51,7 @@ exports.getAll = function (req, res) {
     });
 };
 
+//Tuo yhden Id:n perusteella (/api/:id)
 exports.id = function (req, res) {
     Customers.find({ _id: req.params.id }, function (err, results) {
         console.log(results);
@@ -45,22 +60,30 @@ exports.id = function (req, res) {
     console.log("id search");
 };
 
+// Lisää yhden dokumentin kokoelmaan (/api/add)
 exports.add = function (req, res) {
-    var name = req.body.name;
-    var address = req.body.address;
-    var email = req.body.email;
-    console.log(Customers);
-    var asiakas =
-    {
-        name: name,
-        address: address,
-        email: email
-    };
-    Customers.insertOne(asiakas);
+    var nimi = req.body.name;
+    var osoite = req.body.address;
+    var emaili = req.body.email;
 
-    res.send("Lisätään customer: " + joku + " (" + joku2 + ")");
+    const asiakas = new Customers(
+        {
+            name: nimi,
+            address: osoite,
+            email: emaili
+        });
+    // Tietokantavirheen käsittely 
+    try {
+        console.log(asiakas);
+        asiakas.save();
+        res.send("Lisätään customer: " + nimi + " " + osoite + " " + emaili);
+    } // jos error
+    catch (error) {
+        res.status(400).json({ message: error.message })
+    }
 };
 
+// Päivittää Id:n perusteella yhden dokumentin nimen Junioriksi
 exports.updateId = function (req, res) {
     var id = req.params.id;
 
@@ -78,11 +101,9 @@ exports.updateId = function (req, res) {
             res.json("Muutettu " + id + " " + results.name, 200);
         }
     });
-
-    res.render('index');
-    console.log('index.ejs here!');
 };
 
+// Poistaa Id:n perusteella yhden dokumentin
 exports.deleteId = function (req, res) {
     // Poimitaan id talteen ja välitetään se tietokannan poisto-operaatioon
     var id = req.params.id;
@@ -101,7 +122,4 @@ exports.deleteId = function (req, res) {
             res.json("Deleted " + id + " " + results.email, 200);
         }
     });
-
-    res.render('index');
-    console.log('index.ejs here!');
 };

@@ -1,7 +1,5 @@
 //Moduuleja
 const PORT = process.env.PORT || 8083; //Portti
-var http = require("http");
-var fs = require('fs');
 var express = require("express");
 var path = require('path');
 var cookieParser = require('cookie-parser');

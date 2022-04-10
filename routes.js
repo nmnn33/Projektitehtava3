@@ -20,17 +20,7 @@ const Customers = mongoose.model(
     CustomerSchema,
     "customers"
 );
-/*// Määritellään Customers-niminen Schema, eli tietomalli taulukkoon tallennettavista olioista. Alla oleva "customers" kertoo kokoelman.
-const Customers = mongoose.model(
-    "Customers",
-    {
-        name: String,
-        address: String,
-        email: String
-    },
-    "customers"
-);
-*/
+
 //Pääsivu polku (/)
 exports.index = function (req, res) {
     res.render('index');
@@ -66,12 +56,11 @@ exports.add = function (req, res) {
     var osoite = req.body.address;
     var emaili = req.body.email;
 
-    const asiakas = new Customers(
-        {
-            name: nimi,
-            address: osoite,
-            email: emaili
-        });
+    const asiakas = new Customers({
+        name: nimi,
+        address: osoite,
+        email: emaili
+    });
     // Tietokantavirheen käsittely 
     try {
         console.log(asiakas);

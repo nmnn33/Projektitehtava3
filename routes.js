@@ -63,7 +63,8 @@ exports.add = function (req, res) {
     });
     // Tietokantavirheen käsittely 
     try {
-        console.log(asiakas);
+        console.log(nimi, osoite, emaili);
+        console.log(asiakas + " asdiasduiyariuy3eiyur3iqw2");
         asiakas.save();
         res.send("Lisätään customer: " + nimi + " " + osoite + " " + emaili);
     } // jos error
